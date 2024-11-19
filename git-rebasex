@@ -16,13 +16,13 @@ TARGET_BRANCH=$(git symbolic-ref --short HEAD)
 
 echo "Current branch detected as target branch: $TARGET_BRANCH"
 
-echo "Pulling latest changes for $TARGET_BRANCH"
-git pull origin "$TARGET_BRANCH"
-
 echo "Checking out your branch: $YOUR_BRANCH"
 git checkout "$YOUR_BRANCH"
 
+echo "Pulling latest changes for $YOUR_BRANCH"
+git pull origin "$YOUR_BRANCH"
+
 echo "Rebasing $YOUR_BRANCH onto $TARGET_BRANCH"
-git rebase "$TARGET_BRANCH"
+git rebase "$YOUR_BRANCH"
 
 echo "Rebase complete! 🎉"
