@@ -22,6 +22,9 @@ git checkout "$YOUR_BRANCH"
 echo "Pulling latest changes for $YOUR_BRANCH"
 git pull origin "$YOUR_BRANCH"
 
+echo "Checking out target branch: $TARGET_BRANCH"
+git checkout "$TARGET_BRANCH"
+
 echo "Rebasing $YOUR_BRANCH onto $TARGET_BRANCH"
 git rebase "$YOUR_BRANCH"
 
