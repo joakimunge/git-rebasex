@@ -16,6 +16,17 @@ TARGET_BRANCH=$(git symbolic-ref --short HEAD)
 
 echo "Current branch detected as target branch: $TARGET_BRANCH"
 
+if ! git diff-index --quiet HEAD --; then
+  echo "You have uncommitted changes on the current branch."
+  read -p "Do you want to stash them before rebasing? (y/n): " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "🗄️ Stashing changes..."
+    git stash push -m "Stash before rebasing $YOUR_BRANCH onto $TARGET_BRANCH"
+    STASHED=true
+  fi
+fi
+
 echo "Checking out your branch: $YOUR_BRANCH"
 git checkout "$YOUR_BRANCH"
 
@@ -27,5 +38,10 @@ git checkout "$TARGET_BRANCH"
 
 echo "Rebasing $YOUR_BRANCH onto $TARGET_BRANCH"
 git rebase "$YOUR_BRANCH"
+
+if [ "$STASHED" = true ]; then
+  echo "🗄️ Applying stashed changes..."
+  git stash pop
+fi
 
 echo "Rebase complete! 🎉"
